@@ -47,3 +47,25 @@ print(df_can.isnull().sum())
 
 # let's view a quick summary of each column in our dataframe
 print(df_can.describe())
+
+# Let's try filtering on the list of countries
+print(df_can.Country)  # returns a series
+
+# Let's try filtering on the list of countries ('Country') and the data for years: 1980 - 1985.
+print(df_can[['Country', 1980, 1981, 1982, 1983, 1984, 1985]]) # returns a dataframe
+# notice that 'Country' is string, and the years are integers. 
+# for the sake of consistency, we will convert all column names to string later on.
+
+# to do a query by a specific country
+df_can.set_index('Country', inplace=True)
+# tip: The opposite of set is reset. So to reset the index, we can use df_can.reset_index()
+
+print(df_can.head(3))
+
+# optional: to remove the name of the index
+df_can.index.name = None
+
+# Let's view the number of immigrants from Japan (row 87) for the following scenarios: 
+# 1. The full row data (all columns) 2. For year 2013 3. For years 1980 to 1985
+
+
