@@ -254,3 +254,113 @@ plt.show()
 
 # Question: Use the scripting layer to display the immigration distribution for Greece, Albania, and Bulgaria 
 # for years 1980 - 2013? Use an overlapping plot with 15 bins and a transparency value of 0.35.
+
+# transpose dataframe
+df_a = df_can.loc[["Greece", "Albania", "Bulgaria"], years].transpose()
+df_a.head()
+
+# let's get the x-tick values
+count, bin_edges = np.histogram(df_a, 15)
+
+# generate un-stacked histogram
+df_a.plot(
+    kind = "hist", 
+    figsize = (10,6), 
+    bins = 15, 
+    alpha = 0.35, 
+    xticks = bin_edges, 
+    color = ["coral", "darkslateblue", "mediumseagreen"], 
+    )
+
+plt.title("Histogram of Immigration from Greece, Albania, and Bulgaria from 1980-2013")
+plt.ylabel("Number of Years")
+plt.xlabel("Number of Immigrants")
+
+plt.show()
+
+# Question: Let's compare the number of Icelandic immigrants (country = 'Iceland') to Canada from year 1980 to 2013.
+# step 1: get the data
+df_iceland = df_can.loc['Iceland', years]
+df_iceland.head()
+
+# step 2: plot data
+df_iceland.plot(kind='bar', figsize=(10, 6))
+
+plt.xlabel('Year') # add to x-label to the plot
+plt.ylabel('Number of immigrants') # add y-label to the plot
+plt.title('Icelandic immigrants to Canada from 1980 to 2013') # add title to the plot
+
+plt.show()
+
+# Let's annotate this on the plot using the annotate method of the scripting layer or the pyplot interface.
+df_iceland.plot(kind='bar', figsize=(10, 6), rot=90)  # rotate the xticks(labelled points on x-axis) by 90 degrees
+
+plt.xlabel('Year')
+plt.ylabel('Number of Immigrants')
+plt.title('Icelandic Immigrants to Canada from 1980 to 2013')
+
+# Annotate arrow
+plt.annotate('',  # s: str. Will leave it blank for no text
+             xy=(32, 70),  # place head of the arrow at point (year 2012 , pop 70)
+             xytext=(28, 20),  # place base of the arrow at point (year 2008 , pop 20)
+             xycoords='data',  # will use the coordinate system of the object being annotated
+             arrowprops=dict(arrowstyle='->', connectionstyle='arc3', color='blue', lw=2)
+             )
+
+plt.show()
+
+# Let's also annotate a text to go over the arrow
+df_iceland.plot(kind='bar', figsize=(10, 6), rot=90)
+
+plt.xlabel('Year')
+plt.ylabel('Number of Immigrants')
+plt.title('Icelandic Immigrants to Canada from 1980 to 2013')
+
+# Annotate arrow
+plt.annotate('',  # s: str. will leave it blank for no text
+             xy=(32, 70),  # place head of the arrow at point (year 2012 , pop 70)
+             xytext=(28, 20),  # place base of the arrow at point (year 2008 , pop 20)
+             xycoords='data',  # will use the coordinate system of the object being annotated
+             arrowprops=dict(arrowstyle='->', connectionstyle='arc3', color='blue', lw=2)
+             )
+
+# Annotate Text
+plt.annotate('2008 - 2011 Financial Crisis',  # text to display
+             xy=(28, 30),  # start the text at at point (year 2008 , pop 30)
+             rotation=72.5,  # based on trial and error to match the arrow
+             va='bottom',  # want the text to be vertically 'bottom' aligned
+             ha='left',  # want the text to be horizontally 'left' algned.
+             )
+
+plt.show()
+
+# Question: Using the scripting later and the df_can dataset, create a horizontal bar plot showing the 
+# total number of immigrants to Canada from the top 15 countries, for the period 1980 - 2013. 
+# Label each country with the total immigrant count.
+
+
+# Step 1: Get the data pertaining to the top 15 countries.
+
+# sort dataframe on 'Total' column (descending)
+df_can.sort_values(by='Total', ascending=True, inplace=True)
+
+# get top 15 countries
+df_top15 = df_can['Total'].tail(15)
+
+# Step 2: Plot data:
+df_top15.plot(kind = "barh", figsize = (12, 12))
+
+plt.xlabel("Number of Immigrants")
+plt.title("Number of Immigrants to Canada from the Top 15 Countries from 1980-2013")
+
+# annotate value labels to each country
+for index, value in enumerate(df_top15): 
+    label = format(int(value), ',') # format int with commas
+    
+# place text at the end of bar (subtracting 47000 from x, and 0.1 from y to make it fit within the bar)
+plt.annotate(label, xy=(value - 47000, index - 0.10), color='white')
+
+plt.show()
+
+
+
